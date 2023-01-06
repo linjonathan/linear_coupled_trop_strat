@@ -1,0 +1,90 @@
+### Configure model settings ###
+### Wave parameters ###
+nm=1;                                  % meridional order of the wave
+km=1;                                  % horizontal wave-number
+
+### Tropospheric non-dimensional parameters ###
+alpha=0.35;                            % WISHE feedback
+chi=0.2;                               % Boundary layer damping
+C=0.5                                  % Mid-level cloud radiative feedback
+Cr=0.75;                               % High ice cloud radiative feedback
+gamma=5;                               % Time scale of entropy
+D=0.25;                                % Entropy damping
+d=0.02;                                % Mid-level entropy horizontal diffusion
+G=0.02;                                % Gross moist stability
+delta=30;                              % Zonal geostrophy
+F=0.0;                                 % Surface friction
+eta=0.02;                              % Meridional diffusion (all terms)
+
+### Stratosphere non-dimensional parameters ### 
+S=40;                                  % stratosphere dry stratification
+Us=0.0;                                % mean wind in the stratosphere
+xi=2.5;                                % strength of meridional temperature advection
+Gamma=0.0;                             % strength of vertical zonal momentum flux
+q_rad=0;                               % radiative relaxation
+
+### Stratosphere wind settings ###
+# Choose between [jump, linear, qbo].
+# 'jump' will set the troposphere zonal wind to zero, and the entire stratosphere to "Us"
+# 'linear' will configure the stratosphere zonal wind to linearly increase from zero at the tropopause
+#          to "Us" at the level "H_uS_const" 
+u_shape=qbo;                         % shape of stratosphere wind, see above comments
+H_uS_const=20;                       % used only in 'linear' setting; height (km) where zonal wind equals "Us"
+a_qbo=5;                             % used only in 'qbo' setting, see paper for details
+b_qbo=0.5;                           % used only in 'qbo' setting, see paper for details
+c_qbo=0.01;                          % used only in 'qbo' setting, see paper for details
+
+### Cirrus cloud feedback parameters ###
+z_cirrus=15;                         % height (km) at which to parameterize advection and dynamical modulation of cirrus clouds
+upsilon=0.5;                         % dynamical modulation scaling factor
+u_advect=0.0;                        % non-dimensional zonal wind advecting the clouds
+
+### Dimensional parameters ###
+H=16;                                % tropopause height (km)
+H_s=7;                               % scale height (km)
+p_s=1000;                            % surface pressure (hPa)
+p_t=100;                             % tropopause pressure (hPa)
+T_bl=300;                            % surface temperature (K)
+cp_d=1005;                           % J / kg K
+Rd=287;                              % J / kg K
+g=9.81;                              % m / s^2
+Lv=2.5e6;                            % J / kg
+a=6378000;                           % radius of earth (m)
+beta=2.3e-11;                        % change in coriolis with latitude (1 / s m)
+
+### Initialization settings ###
+# If init_from_file is false, then initialize from the rigid-lid solution.
+# May not work properly when C = 0 and Cr is non-zero, because the
+# rigid-lid solutions do not include ice cloud feedbacks.
+init_from_file=false;				 % initialize the domain from a file; if true, init_file must be configured
+init_file='init.mat';                % file from which to initialize the domain
+
+### Numerical computation settings ###
+# Troposphere vertical resolution is only used for plotting.
+# Stratosphere vertical resolution is the numerical resolution in stratosphere.
+# Uses a high resolution grid near the tropopause, and a lower resolution in the upper stratosphere.
+Nx=256;                              % number of points in the zonal direction (only used for plotting)
+Ny=128;                              % number of points in the meridional direction
+Np=256;                              % troposphere vertical resolution (only used for plotting and output)
+Nz_lower=400;                        % lower stratosphere vertical resolution (log-pressure)
+Nz_upper=200;                        % upper stratosphere vertical resolution (log-pressure)
+res_edge=0.7854;                     % non-dimensional log-pressure height that separates high and low resolution grid
+z_top=7.2832;                        % non-dimensional log-pressure height that separates high and low resolution grid
+y_sponge=6;                          % non-dimensional latitude to begin sponge layer
+z_sponge=5;                          % non-dimensional log-pressure height to begin sponge layer
+r_sponge=60;                         % magnitude of the sponge-layer damping coefficient
+
+### Time stepping settings ###
+T=25;                                % total time (non-dimensional)
+n_steps=25000;                       % total number of time steps
+
+### Output file settings ###
+plot_steps=true;                     % plot domain at save_state_step steps
+rescale_threshold=200;               % value at which to rescale domain
+save_state_step=200;                 % time-step resolution of output (i.e. every N steps will be output)
+base_dir=.;                          % base directory of output files
+exp_name=mjo_qbo_control;            % experiment name
+
+### Analyze output settings ###
+T_analyze_start=15;                  % non-dimensional time to begin analysis
+T_analyze_end=25;                    % non-dimensional time to end analysis
