@@ -7,4 +7,5 @@ To run the model, use:
 
 ## References:
 Lin J., Emanuel K (2022). Stratospheric Modulation of the MJO through Cirrus Cloud Feedbacks. Journal of Atmospheric Science, (83)1:273-299.
+
 Lin J., Emanuel K. (2022). On the Effect of Surface Friction and Upward Radiation of Energy on Equatorial Waves. Journal of Atmospheric Science, 79(3):837-857.
